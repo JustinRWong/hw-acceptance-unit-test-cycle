@@ -6,9 +6,18 @@ class MoviesController < ApplicationController
 
   def show
     id = params[:id] # retrieve movie ID from URI route
-    redirect_to directed_by if id == 'directed_by'
+#     redirect_to directed_by if id == 'directed_by'
+    if id == 'directed_by'
+      if Movie.where("director = ?", params[:director]).empty?
+        flash[:notice] = "'#{params[:movie]}' has no director info"
+        redirect_to movies_path
+      else
+        redirect_to directed_by
+      end
+    else 
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
+    end
   end
   
   def directed_by
@@ -36,6 +45,7 @@ class MoviesController < ApplicationController
       session[:ratings] = @selected_ratings
       redirect_to :sort => sort, :ratings => @selected_ratings and return
     end
+    
     @movies = Movie.where(rating: @selected_ratings.keys).order(ordering)
   end
 
