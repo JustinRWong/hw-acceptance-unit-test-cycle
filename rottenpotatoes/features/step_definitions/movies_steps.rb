@@ -27,3 +27,7 @@ end
 Then /the director of "(.*)" should be "(.*)"$/ do |movie, director|
   expect(Movie.where("movie == ?", movie).select("director") == director)
 end
+
+When(/^I create a new movie called "([^"]*)" rated "([^"]*)" released on "([^"]*)"$/) do |movie, rating, release_date|
+  Movie.create :title => movie, :rating => rating, :release_date => release_date
+end

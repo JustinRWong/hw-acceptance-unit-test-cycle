@@ -39,3 +39,19 @@ Scenario: all ratings selected
   When I check the following ratings: PG, R, G, PG-13
   And I press "ratings_submit"
   Then I should see all the movies
+
+Scenario: create new PG movie then check it's filtered
+  When I follow "Add new movie"
+  And I fill in "Title" with "Sample"
+  When I select "R" from Rating
+  And I fill in "Released On" with "21-Jun-2000"
+  And I fill in "Director" with "Ridley Scott"
+  And I press "Save Changes"
+  When I check the following ratings: PG, R
+  And I uncheck the following ratings: G, PG-13
+  And I press "ratings_submit"
+  Then I should see "The Incredibles"
+  And I should see "The Terminator"
+  And I should not see "Alladin"
+  And I should not see "The Help"
+  And I should see "Sample"

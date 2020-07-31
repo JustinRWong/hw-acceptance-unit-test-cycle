@@ -11,8 +11,6 @@ class MoviesController < ApplicationController
       if Movie.where("director = ?", params[:director]).empty?
         flash[:notice] = "'#{params[:movie]}' has no director info"
         redirect_to movies_path
-      else
-        redirect_to directed_by
       end
     else 
     @movie = Movie.find(id) # look up movie by unique ID
@@ -51,6 +49,7 @@ class MoviesController < ApplicationController
 
   def new
     # default: render 'new' template
+#     @movie = Movie.create!(movie_params)
   end
 
   def create
